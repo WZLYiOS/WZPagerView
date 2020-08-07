@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WZPagerView'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = '分页上下左右滚动组件 '
   s.description      = <<-DESC
 分页上下左右滚动组件.
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   end
 
 
-  s.subspec 'Binary' do |ss|
-    ss.vendored_frameworks = "Carthage/Build/iOS/Static/WZPagerView.framework"
-  end
+  #s.subspec 'Binary' do |ss|
+   # ss.vendored_frameworks = "Carthage/Build/iOS/Static/WZPagerView.framework"
+  #end
 end
