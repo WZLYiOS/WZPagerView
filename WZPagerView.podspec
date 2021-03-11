@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WZPagerView'
-  s.version          = '1.0.5'
+  s.version          = '1.0.6'
   s.summary          = '分页上下左右滚动组件 '
   s.description      = <<-DESC
 分页上下左右滚动组件.

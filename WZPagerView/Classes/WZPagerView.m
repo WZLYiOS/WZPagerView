@@ -211,14 +211,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (self.delegate == nil || ![self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
-        return 0;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
+        return [self.delegate heightForPinSectionHeaderInPagerView:self];
     }
-    return [self.delegate heightForPinSectionHeaderInPagerView:self];
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (self.delegate == nil && [self.delegate respondsToSelector:@selector(viewForPinSectionHeaderInPagerView:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(viewForPinSectionHeaderInPagerView:)]) {
         return [self.delegate viewForPinSectionHeaderInPagerView:self];
     }
     return [[UIView alloc] init];
