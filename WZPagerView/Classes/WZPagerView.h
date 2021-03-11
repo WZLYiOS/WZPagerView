@@ -27,6 +27,8 @@
  */
 - (UIView *)listView;
 
+@optional
+
 /**
  返回listView内部持有的UIScrollView或UITableView或UICollectionView
  主要用于mainTableView已经显示了header，listView的contentOffset需要重置时，内部需要访问到外部传入进来的listView内的scrollView
@@ -34,8 +36,6 @@
  @return listView内部持有的UIScrollView或UITableView或UICollectionView
  */
 - (UIScrollView *)listScrollView;
-
-@optional
 
 /**
  此方法已经废弃，请实现 @property (strong,nonatomic,nullable) void(^scrollPagerHandel)(UIScrollView *scrollView); block
@@ -63,6 +63,28 @@
 @end
 
 @protocol WZPagerViewDelegate <NSObject>
+
+/**
+ 返回列表的数量
+
+ @param pagerView pagerView description
+ @return 列表的数量
+ */
+- (NSInteger)numberOfListsInPagerView:(WZPagerView *)pagerView;
+
+/**
+ 根据index初始化一个对应列表实例，需要是遵从`WZPagerViewListViewDelegate`协议的对象。
+ 如果列表是用自定义UIView封装的，就让自定义UIView遵从`WZPagerViewListViewDelegate`协议，该方法返回自定义UIView即可。
+ 如果列表是用自定义UIViewController封装的，就让自定义UIViewController遵从`WZPagerViewListViewDelegate`协议，该方法返回自定义UIViewController即可。
+ 注意：一定要是新生成的实例！！！
+
+ @param pagerView pagerView description
+ @param index index description
+ @return 新生成的列表实例
+ */
+- (id<WZPagerViewListViewDelegate>)pagerView:(WZPagerView *)pagerView initListAtIndex:(NSInteger)index;
+
+@optional
 
 /**
  返回tableHeaderView的高度，因为内部需要比对判断，只能是整型数
@@ -95,28 +117,6 @@
  @return 悬浮HeaderView
  */
 - (UIView *)viewForPinSectionHeaderInPagerView:(WZPagerView *)pagerView;
-
-/**
- 返回列表的数量
-
- @param pagerView pagerView description
- @return 列表的数量
- */
-- (NSInteger)numberOfListsInPagerView:(WZPagerView *)pagerView;
-
-/**
- 根据index初始化一个对应列表实例，需要是遵从`WZPagerViewListViewDelegate`协议的对象。
- 如果列表是用自定义UIView封装的，就让自定义UIView遵从`WZPagerViewListViewDelegate`协议，该方法返回自定义UIView即可。
- 如果列表是用自定义UIViewController封装的，就让自定义UIViewController遵从`WZPagerViewListViewDelegate`协议，该方法返回自定义UIViewController即可。
- 注意：一定要是新生成的实例！！！
-
- @param pagerView pagerView description
- @param index index description
- @return 新生成的列表实例
- */
-- (id<WZPagerViewListViewDelegate>)pagerView:(WZPagerView *)pagerView initListAtIndex:(NSInteger)index;
-
-@optional
 
 /**
  mainTableView的滚动回调，用于实现头图跟随缩放

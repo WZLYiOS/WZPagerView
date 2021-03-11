@@ -100,14 +100,16 @@
 #pragma mark - Private
 
 - (void)refreshTableHeaderView {
-    if (self.delegate == nil) {
-        return;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableHeaderViewInPagerView:)]) {
+        UIView *tableHeaderView = [self.delegate tableHeaderViewInPagerView:self];
+        CGFloat height = 0;
+        if ([self.delegate respondsToSelector:@selector(tableHeaderViewHeightInPagerView:)]) {
+            height = [self.delegate tableHeaderViewHeightInPagerView:self];
+        }
+        UIView *containerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, CGRectGetWidth(tableHeaderView.bounds), height)];
+        [containerView addSubview:tableHeaderView];
+        self.mainTableView.tableHeaderView = containerView;
     }
-    UIView *tableHeaderView = [self.delegate tableHeaderViewInPagerView:self];
-    CGFloat height = [self.delegate tableHeaderViewHeightInPagerView:self];
-    UIView *containerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, CGRectGetWidth(tableHeaderView.bounds), height)];
-    [containerView addSubview:tableHeaderView];
-    self.mainTableView.tableHeaderView = containerView;
 }
 
 - (void)adjustMainScrollViewToTargetContentInsetIfNeeded:(UIEdgeInsets)insets {
@@ -185,8 +187,11 @@
     if (self.delegate == nil) {
         return 0;
     }
-    
-    CGFloat height = self.bounds.size.height - [self.delegate heightForPinSectionHeaderInPagerView:self] - self.pinSectionHeaderVerticalOffset;
+    CGFloat sectionHeight = 0;
+    if ([self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
+        sectionHeight = [self.delegate heightForPinSectionHeaderInPagerView:self];
+    }
+    CGFloat height = self.bounds.size.height - sectionHeight - self.pinSectionHeaderVerticalOffset;
     if (height <= 0) {
         return 0;
     } else {
@@ -206,17 +211,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (self.delegate == nil) {
+    if (self.delegate == nil || ![self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
         return 0;
     }
     return [self.delegate heightForPinSectionHeaderInPagerView:self];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (self.delegate == nil) {
-        return [[UIView alloc] init];
+    if (self.delegate == nil && [self.delegate respondsToSelector:@selector(viewForPinSectionHeaderInPagerView:)]) {
+        return [self.delegate viewForPinSectionHeaderInPagerView:self];
     }
-    return [self.delegate viewForPinSectionHeaderInPagerView:self];
+    return [[UIView alloc] init];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -293,11 +298,13 @@
         __weak typeof(self)weakSelf = self;
         __weak typeof(id<WZPagerViewListViewDelegate>) weakList = list;
         
-        [list listScrollView].scrollPagerHandel = ^(UIScrollView * _Nonnull scrollView) {
-            weakSelf.currentList = weakList;
-            [weakSelf listViewDidScroll:scrollView];
-        };
-        
+        if ([list respondsToSelector:@selector(listScrollView)]) {
+            [list listScrollView].scrollPagerHandel = ^(UIScrollView * _Nonnull scrollView) {
+                weakSelf.currentList = weakList;
+                [weakSelf listViewDidScroll:scrollView];
+            };
+        }
+    
         /// 后续移除，为兼容旧版本
         if ([list respondsToSelector:@selector(listViewDidScrollCallback:)]) {
             [list listViewDidScrollCallback:^(UIScrollView *scrollView) {
@@ -332,10 +339,10 @@
 @implementation WZPagerView (UISubclassingGet)
 
 - (CGFloat)mainTableViewMaxContentOffsetY {
-    if (self.delegate == nil) {
-        return 0;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(tableHeaderViewHeightInPagerView:)]) {
+        return [self.delegate tableHeaderViewHeightInPagerView:self] - self.pinSectionHeaderVerticalOffset;
     }
-    return [self.delegate tableHeaderViewHeightInPagerView:self] - self.pinSectionHeaderVerticalOffset;
+    return 0;
 }
 
 @end
