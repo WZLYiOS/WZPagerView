@@ -315,11 +315,14 @@
         _validListDict[@(row)] = list;
     }
     for (id<WZPagerViewListViewDelegate> listItem in self.validListDict.allValues) {
-        if (listItem == list) {
-            [listItem listScrollView].scrollsToTop = YES;
-        }else {
-            [listItem listScrollView].scrollsToTop = NO;
+        if ([listItem respondsToSelector:@selector(listScrollView)]) {
+            if (listItem == list) {
+                [listItem listScrollView].scrollsToTop = YES;
+            }else {
+                [listItem listScrollView].scrollsToTop = NO;
+            }
         }
+        
     }
     
     return [list listView];
@@ -327,7 +330,9 @@
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView willDisplayCellAtRow:(NSInteger)row {
     [self listDidAppear:row];
-    self.currentScrollingListView = [self.validListDict[@(row)] listScrollView];
+    if ([self.validListDict[@(row)] respondsToSelector:@selector(listScrollView)]) {
+        self.currentScrollingListView = [self.validListDict[@(row)] listScrollView];
+    }
 }
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView didEndDisplayingCellAtRow:(NSInteger)row {
@@ -405,7 +410,9 @@
             if ([list respondsToSelector:@selector(listScrollViewWillResetContentOffset)]) {
                 [list listScrollViewWillResetContentOffset];
             }
-            [self setListScrollViewToMinContentOffsetY:[list listScrollView]];
+            if ([list respondsToSelector:@selector(listScrollView)]) {
+                [self setListScrollViewToMinContentOffsetY:[list listScrollView]];
+            }
         }
     }
 
