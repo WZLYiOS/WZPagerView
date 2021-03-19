@@ -15,10 +15,19 @@
 
 @implementation VCTwoViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"第二个：进入界面");
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"第二个：离开界面");
+}
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"第二个");
+//    NSLog(@"第二个");
     [self.view addSubview: self.tableView];
 }
 

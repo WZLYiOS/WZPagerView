@@ -18,10 +18,19 @@
 
 @implementation VCThreeViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"第三个：进入界面");
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"第三个：离开界面");
+}
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"第三个");
+//    NSLog(@"第三个");
     [self.view addSubview: self.tableView];
 }
 

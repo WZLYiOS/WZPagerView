@@ -15,17 +15,17 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"进入界面");
+    NSLog(@"第一个：进入界面");
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"离开界面");
+    NSLog(@"第一个：离开界面");
 }
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"第一个");
+//    NSLog(@"第一个");
     [self.view addSubview: self.tableView];
 }
 
