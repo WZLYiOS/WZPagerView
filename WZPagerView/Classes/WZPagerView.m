@@ -9,10 +9,37 @@
 #import "WZPagerView.h"
 
 @interface WZPagerListContainerViewController : UIViewController
+@property (copy) void(^viewWillAppearBlock)(void);
+@property (copy) void(^viewDidAppearBlock)(void);
+@property (copy) void(^viewWillDisappearBlock)(void);
+@property (copy) void(^viewDidDisappearBlock)(void);
 
 @end
 
 @implementation WZPagerListContainerViewController
+- (void)dealloc
+{
+    self.viewWillAppearBlock = nil;
+    self.viewDidAppearBlock = nil;
+    self.viewWillDisappearBlock = nil;
+    self.viewDidDisappearBlock = nil;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.viewWillAppearBlock();
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.viewDidAppearBlock();
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.viewWillDisappearBlock();
+}
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.viewDidDisappearBlock();
+}
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods {
     return NO;
 }
@@ -77,16 +104,19 @@
     }
 }
 
+- (void)currentListDidAppear{
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.containerVC.view.frame = self.bounds;
     self.mainTableView.frame = self.bounds;
 }
 
-- (void)setDefaultSelectedIndex:(NSInteger)defaultSelectedIndex {
-    _defaultSelectedIndex = defaultSelectedIndex;
-
-    self.listContainerView.defaultSelectedIndex = defaultSelectedIndex;
+- (void)setDefaultSelectedRow:(NSInteger)defaultSelectedRow {
+    _defaultSelectedRow = defaultSelectedRow;
+    self.listContainerView.defaultSelectedIndex = defaultSelectedRow;
+    self.currentIndex = defaultSelectedRow;
 }
 
 - (void)setIsListHorizontalScrollEnabled:(BOOL)isListHorizontalScrollEnabled {
@@ -146,11 +176,6 @@
     }
 }
 
-- (void)currentListDidAppear {
-    [self listDidAppear:self.currentIndex];
-    
-}
-
 - (void)currentListDidDisappear {
     id<WZPagerViewListViewDelegate> list = _validListDict[@(self.currentIndex)];
     if (list && [list respondsToSelector:@selector(listDidDisappear)]) {
@@ -158,36 +183,6 @@
     }
     self.willRemoveFromWindow = NO;
     self.retainedSelf = nil;
-}
-
-- (void)listDidAppear:(NSInteger)index {
-    if (self.delegate == nil) {
-        return;
-    }
-    NSUInteger count = [self.delegate numberOfListsInPagerView:self];
-    if (count <= 0 || index >= count) {
-        return;
-    }
-    self.currentIndex = index;
-
-    id<WZPagerViewListViewDelegate> list = _validListDict[@(index)];
-    if (list && [list respondsToSelector:@selector(listDidAppear)]) {
-        [list listDidAppear];
-    }
-}
-
-- (void)listDidDisappear:(NSInteger)index {
-    if (self.delegate == nil) {
-        return;
-    }
-    NSUInteger count = [self.delegate numberOfListsInPagerView:self];
-    if (count <= 0 || index >= count) {
-        return;
-    }
-    id<WZPagerViewListViewDelegate> list = _validListDict[@(index)];
-    if (list && [list respondsToSelector:@selector(listDidDisappear)]) {
-        [list listDidDisappear];
-    }
 }
 
 #pragma mark - UITableViewDataSource, UITableViewDelegate
@@ -301,9 +296,9 @@
     return [self.delegate numberOfListsInPagerView:self];
 }
 
-- (id<WZPagerViewListViewDelegate>)listContainerView:(WZPagerListContainerView *)listContainerView listViewInRow:(NSInteger)row {
+- (UIView *)listContainerView:(WZPagerListContainerView *)listContainerView listViewInRow:(NSInteger)row {
     if (self.delegate == nil) {
-        return nil;
+        return [UIView new];
     }
     id<WZPagerViewListViewDelegate> list = self.validListDict[@(row)];
     if (list == nil) {
@@ -331,10 +326,8 @@
                 [listItem listScrollView].scrollsToTop = NO;
             }
         }
-        
     }
-    
-    return list;
+    return [list listView];
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview {
@@ -350,23 +343,16 @@
     }
 }
 
-//- (void)listContainerView:(WZPagerListContainerView *)listContainerView willDisplayCellAtRow:(NSInteger)row {
-//    [self listDidAppear:row];
-//
-//}
-//
-//- (void)listContainerView:(WZPagerListContainerView *)listContainerView didEndDisplayingCellAtRow:(NSInteger)row {
-//    [self listDidDisappear:row];
-//}
-
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView listWillAppear:(NSInteger)row{
-    if ([self.validListDict[@(row)] respondsToSelector:@selector(listScrollView)]) {
-        self.currentScrollingListView = [self.validListDict[@(row)] listScrollView];
-    }
+    
     id<WZPagerViewListViewDelegate> list = self.validListDict[@(row)];
     if ([list isKindOfClass:[UIViewController class]]) {
         UIViewController *listVC = (UIViewController *)list;
         [listVC beginAppearanceTransition:YES animated:NO];
+    }
+    
+    if (list && [list respondsToSelector:@selector(listWillAppear)]) {
+        [list listWillAppear];
     }
 }
 
@@ -380,6 +366,10 @@
         UIViewController *listVC = (UIViewController *)list;
         [listVC endAppearanceTransition];
     }
+    
+    if (list && [list respondsToSelector:@selector(listDidAppear)]) {
+        [list listDidAppear];
+    }
 }
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView listWillDisappear:(NSInteger)row{
@@ -389,6 +379,9 @@
         UIViewController *listVC = (UIViewController *)list;
         [listVC beginAppearanceTransition:NO animated:NO];
     }
+    if (list && [list respondsToSelector:@selector(listWillDisappear)]) {
+        [list listWillDisappear];
+    }
 }
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView listDidDisappear:(NSInteger)row{
@@ -397,12 +390,14 @@
         UIViewController *listVC = (UIViewController *)list;
         [listVC endAppearanceTransition];
     }
+    if (list && [list respondsToSelector:@selector(listDidDisappear)]) {
+        [list listDidDisappear];
+    }
 }
 
 - (NSInteger)currntSelect:(WZPagerListContainerView *)listContainerView {
     return self.currentIndex;
 }
-
 
 @end
 
@@ -424,6 +419,19 @@
     _containerVC = [[WZPagerListContainerViewController alloc] init];
     self.containerVC.view.backgroundColor = [UIColor clearColor];
     [self addSubview:self.containerVC.view];
+    __weak typeof(self) weakSelf = self;
+    self.containerVC.viewWillAppearBlock = ^{
+        [weakSelf.listContainerView listWillAppear:weakSelf.currentIndex];
+    };
+    self.containerVC.viewDidAppearBlock = ^{
+        [weakSelf.listContainerView listDidAppear:weakSelf.currentIndex];
+    };
+    self.containerVC.viewWillDisappearBlock = ^{
+        [weakSelf.listContainerView listWillDisappear:weakSelf.currentIndex];
+    };
+    self.containerVC.viewDidDisappearBlock = ^{
+        [weakSelf.listContainerView listDidDisappear:weakSelf.currentIndex];
+    };
     
     _mainTableView = [[WZPagerMainTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.mainTableView.showsVerticalScrollIndicator = NO;

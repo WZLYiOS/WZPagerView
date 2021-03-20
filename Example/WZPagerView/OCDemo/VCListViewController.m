@@ -23,6 +23,11 @@
     NSLog(@"第一个：离开界面");
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"第一个：界面完全出现");
+}
+
 -(void)viewDidLoad {
     [super viewDidLoad];
 //    NSLog(@"第一个");

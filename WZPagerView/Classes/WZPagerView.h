@@ -11,10 +11,58 @@
 #import "WZPagerMainTableView.h"
 #import "WZPagerListContainerView.h"
 
-#define WZPagerViewDeprecated(instead) NS_DEPRECATED(9_0, 9_0, 9_0, 9_0, instead)
+/**
+ 该协议主要用于mainTableView已经显示了header，listView的contentOffset需要重置时，内部需要访问到外部传入进来的listView内的scrollView
+ */
+@protocol WZPagerViewListViewDelegate <NSObject>
+
+/**
+ 返回listView。如果是vc包裹的就是vc.view；如果是自定义view包裹的，就是自定义view自己。
+
+ @return UIView
+ */
+- (UIView *)listView;
+
+@optional
+
+/**
+ 返回listView内部持有的UIScrollView或UITableView或UICollectionView
+ 主要用于mainTableView已经显示了header，listView的contentOffset需要重置时，内部需要访问到外部传入进来的listView内的scrollView
+
+ @return listView内部持有的UIScrollView或UITableView或UICollectionView
+ */
+- (UIScrollView *)listScrollView;
+
+
+/**
+ 将要重置listScrollView的contentOffset
+ */
+- (void)listScrollViewWillResetContentOffset;
+
+/**
+ 可选实现，列表将要显示的时候调用
+ */
+- (void)listWillAppear;
+
+/**
+ 可选实现，列表显示的时候调用
+ */
+- (void)listDidAppear;
+
+/**
+ 可选实现，列表将要消失的时候调用
+ */
+- (void)listWillDisappear;
+
+/**
+ 可选实现，列表消失的时候调用
+ */
+- (void)listDidDisappear;
+
+
+@end
 
 @class WZPagerView;
-
 @protocol WZPagerViewDelegate <NSObject>
 
 /**
@@ -84,7 +132,7 @@
 /**
  需要和self.categoryView.defaultSelectedIndex保持一致
  */
-@property (nonatomic, assign) NSInteger defaultSelectedIndex;
+@property (nonatomic, assign) NSInteger defaultSelectedRow;
 @property (nonatomic, strong, readonly) WZPagerMainTableView *mainTableView;
 @property (nonatomic, strong, readonly) WZPagerListContainerView *listContainerView;
 /**

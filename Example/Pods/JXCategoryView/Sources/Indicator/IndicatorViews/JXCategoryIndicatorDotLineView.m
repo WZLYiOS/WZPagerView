@@ -84,7 +84,7 @@
     CGRect targetIndicatorFrame = self.frame;
     targetIndicatorFrame.origin.x = x;
     if (self.isScrollEnabled) {
-        if (self.scrollStyle == JXCategoryIndicatorScrollStyleSameAsUserScroll) {
+        if (self.scrollStyle == JXCategoryIndicatorScrollStyleSameAsUserScroll && (model.selectedType == JXCategoryCellSelectedTypeClick | model.selectedType == JXCategoryCellSelectedTypeCode)) {
             if (self.animator.isExecuting) {
                 [self.animator invalid];
                 self.animator = nil;
@@ -130,30 +130,6 @@
     }else {
         self.frame = targetIndicatorFrame;
     }
-}
-
-@end
-
-@implementation JXCategoryIndicatorDotLineView (JXDeprecated)
-
-@dynamic dotSize;
-@dynamic dotLineViewColor;
-
-- (void)setDotSize:(CGSize)dotSize {
-    self.indicatorWidth = dotSize.width;
-    self.indicatorHeight = dotSize.height;
-}
-
-- (CGSize)dotSize {
-    return CGSizeMake(self.indicatorWidth, self.indicatorHeight);
-}
-
-- (void)setDotLineViewColor:(UIColor *)dotLineViewColor {
-    self.indicatorColor = dotLineViewColor;
-}
-
-- (UIColor *)dotLineViewColor {
-    return self.indicatorColor;
 }
 
 @end

@@ -10,7 +10,7 @@
 #import "VCListViewController.h"
 #import "VCTwoViewController.h"
 #import "VCThreeViewController.h"
-
+#import "JXCategoryBaseView.h"
 @interface VCViewController ()
 @end
 
@@ -18,6 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 }
 
 - (id<WZPagerViewListViewDelegate>)pagerView:(WZPagerView *)pagerView initListAtIndex:(NSInteger)index {

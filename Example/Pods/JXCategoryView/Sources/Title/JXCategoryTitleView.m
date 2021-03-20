@@ -9,14 +9,9 @@
 #import "JXCategoryTitleView.h"
 #import "JXCategoryFactory.h"
 
-@interface JXCategoryTitleView ()
-
-@end
-
 @implementation JXCategoryTitleView
 
-- (void)initializeData
-{
+- (void)initializeData {
     [super initializeData];
 
     _titleNumberOfLines = 1;
@@ -35,7 +30,7 @@
 }
 
 - (UIFont *)titleSelectedFont {
-    if (_titleSelectedFont != nil) {
+    if (_titleSelectedFont) {
         return _titleSelectedFont;
     }
     return self.titleFont;
@@ -48,12 +43,12 @@
 }
 
 - (void)refreshDataSource {
-    NSMutableArray *tempArray = [NSMutableArray array];
+    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:self.titles.count];
     for (int i = 0; i < self.titles.count; i++) {
         JXCategoryTitleCellModel *cellModel = [[JXCategoryTitleCellModel alloc] init];
         [tempArray addObject:cellModel];
     }
-    self.dataSource = tempArray;
+    self.dataSource = [NSArray arrayWithArray:tempArray];
 }
 
 - (void)refreshSelectedCellModel:(JXCategoryBaseCellModel *)selectedCellModel unselectedCellModel:(JXCategoryBaseCellModel *)unselectedCellModel {
@@ -61,23 +56,20 @@
 
     JXCategoryTitleCellModel *myUnselectedCellModel = (JXCategoryTitleCellModel *)unselectedCellModel;
     JXCategoryTitleCellModel *myselectedCellModel = (JXCategoryTitleCellModel *)selectedCellModel;
-    if (!self.isSelectedAnimationEnabled) {
-        //没有开启动画，可以直接更新属性
-        myselectedCellModel.titleCurrentColor = myselectedCellModel.titleSelectedColor;
-        myselectedCellModel.titleLabelCurrentZoomScale = myselectedCellModel.titleLabelSelectedZoomScale;
-        myselectedCellModel.titleLabelCurrentStrokeWidth = myselectedCellModel.titleLabelSelectedStrokeWidth;
-
-        myUnselectedCellModel.titleCurrentColor = myUnselectedCellModel.titleNormalColor;
-        myUnselectedCellModel.titleLabelCurrentZoomScale = myUnselectedCellModel.titleLabelNormalZoomScale;
-        myUnselectedCellModel.titleLabelCurrentStrokeWidth = myUnselectedCellModel.titleLabelNormalStrokeWidth;
-    }else {
-        //开启了动画过渡，current的属性值会在cell里面进行动画插值更新
+    if (self.isSelectedAnimationEnabled && (selectedCellModel.selectedType == JXCategoryCellSelectedTypeClick || selectedCellModel.selectedType == JXCategoryCellSelectedTypeCode)) {
+        //开启了动画过渡，且cell在屏幕内，current的属性值会在cell里面进行动画插值更新
+        //1、当unselectedCell在屏幕外的时候，还是需要在这里更新值
+        //2、当selectedCell在屏幕外的时候，还是需要在这里更新值（比如调用selectItemAtIndex方法选中的时候）
         BOOL isUnselectedCellVisible = NO;
+        BOOL isSelectedCellVisible = NO;
         NSArray *indexPaths = [self.collectionView indexPathsForVisibleItems];
         for (NSIndexPath *indexPath in indexPaths) {
             if (indexPath.item == myUnselectedCellModel.index) {
                 isUnselectedCellVisible = YES;
-                break;
+                continue;
+            } else if (indexPath.item == myselectedCellModel.index) {
+                isSelectedCellVisible = YES;
+                continue;
             }
         }
         if (!isUnselectedCellVisible) {
@@ -86,6 +78,21 @@
             myUnselectedCellModel.titleLabelCurrentZoomScale = myUnselectedCellModel.titleLabelNormalZoomScale;
             myUnselectedCellModel.titleLabelCurrentStrokeWidth = myUnselectedCellModel.titleLabelNormalStrokeWidth;
         }
+        if (!isSelectedCellVisible) {
+            //但是当selectedCell在屏幕外时，不会在cell里面通过动画插值更新，在这里直接更新
+            myselectedCellModel.titleCurrentColor = myselectedCellModel.titleSelectedColor;
+            myselectedCellModel.titleLabelCurrentZoomScale = myselectedCellModel.titleLabelSelectedZoomScale;
+            myselectedCellModel.titleLabelCurrentStrokeWidth = myselectedCellModel.titleLabelSelectedStrokeWidth;
+        }
+    } else {
+        //没有开启动画，可以直接更新属性
+        myselectedCellModel.titleCurrentColor = myselectedCellModel.titleSelectedColor;
+        myselectedCellModel.titleLabelCurrentZoomScale = myselectedCellModel.titleLabelSelectedZoomScale;
+        myselectedCellModel.titleLabelCurrentStrokeWidth = myselectedCellModel.titleLabelSelectedStrokeWidth;
+
+        myUnselectedCellModel.titleCurrentColor = myUnselectedCellModel.titleNormalColor;
+        myUnselectedCellModel.titleLabelCurrentZoomScale = myUnselectedCellModel.titleLabelNormalZoomScale;
+        myUnselectedCellModel.titleLabelCurrentStrokeWidth = myUnselectedCellModel.titleLabelNormalStrokeWidth;
     }
 }
 
@@ -115,10 +122,10 @@
     if (self.cellWidth == JXCategoryViewAutomaticDimension) {
         if (self.titleDataSource && [self.titleDataSource respondsToSelector:@selector(categoryTitleView:widthForTitle:)]) {
             return [self.titleDataSource categoryTitleView:self widthForTitle:self.titles[index]];
-        }else {
+        } else {
             return ceilf([self.titles[index] boundingRectWithSize:CGSizeMake(MAXFLOAT, self.bounds.size.height) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName : self.titleFont} context:nil].size.width);
         }
-    }else {
+    } else {
         return self.cellWidth;
     }
 }

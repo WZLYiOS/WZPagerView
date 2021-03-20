@@ -14,6 +14,8 @@
 @property (nonatomic, strong) WZPagerListContainerCollectionView *collectionView;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic, assign) BOOL isFirstLayoutSubviews;
+@property (nonatomic, assign) NSInteger willAppearIndex;
+@property (nonatomic, assign) NSInteger willDisappearIndex;
 @end
 
 @implementation WZPagerListContainerView
@@ -23,6 +25,8 @@
     if (self) {
         _delegate = delegate;
         _isFirstLayoutSubviews = YES;
+        _willAppearIndex = -1;
+        _willDisappearIndex = -1;
         [self initializeViews];
     }
     return self;
@@ -86,39 +90,21 @@
     for (UIView *view in cell.contentView.subviews) {
         [view removeFromSuperview];
     }
-    id<WZPagerViewListViewDelegate> listView = [self.delegate listContainerView:self listViewInRow:indexPath.item];
-    if (listView != nil) {
-        [listView listView].frame = cell.bounds;
-        [cell.contentView addSubview:[listView listView]];
-    }
+    UIView *listView = [self.delegate listContainerView:self listViewInRow:indexPath.item];
+    listView.frame = cell.bounds;
+    [cell.contentView addSubview: listView];
     return cell;
 }
 
 - (NSInteger)currentIndex{
-//    return [NSIndexPath indexPathForItem:self.collectionView.contentOffset.x/self.bounds.size.width inSection:0].item;
     return [self.delegate currntSelect:self];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillAppear:)]) {
-        [self.delegate listContainerView: self listWillAppear: indexPath.row];
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillDisappear:)] && [self currentIndex] != indexPath.item) {
-        [self.delegate listContainerView: self listWillDisappear: [self currentIndex]];
-    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidDisappear:)]) {
-        [self.delegate listContainerView: self listDidDisappear: indexPath.row];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidAppear:)]) {
-        NSInteger row = [NSIndexPath indexPathForItem:self.collectionView.contentOffset.x/self.bounds.size.width inSection:0].item;
-        [self.delegate listContainerView: self listDidAppear: row];
-    }
+
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -131,6 +117,15 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.mainTableView.scrollEnabled = YES;
+    //滑动到一半又取消滑动处理
+    if (self.willDisappearIndex != -1) {
+        [self listWillAppear:self.willDisappearIndex];
+        [self listWillDisappear:self.willAppearIndex];
+        [self listDidAppear:self.willDisappearIndex];
+        [self listDidDisappear:self.willAppearIndex];
+        self.willDisappearIndex = -1;
+        self.willAppearIndex = -1;
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -149,6 +144,115 @@
     return self.bounds.size;
 }
 
+- (void)listWillAppear:(NSInteger)row{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillAppear:)]) {
+        /// 控制器首次出现的时候还未添加数据源
+        [self.delegate listContainerView:self listViewInRow:row];
+        [self.delegate listContainerView: self listWillAppear: row];
+    }
+}
+
+
+- (void)listDidAppear:(NSInteger)row{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidAppear:)]) {
+        [self.delegate listContainerView: self listDidAppear: row];
+    }
+}
+
+- (void)listWillDisappear:(NSInteger)row{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillDisappear:)]) {
+        [self.delegate listContainerView: self listWillDisappear: row];
+    }
+}
+
+- (void)listDidDisappear:(NSInteger)row{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidDisappear:)]) {
+        [self.delegate listContainerView: self listDidDisappear: row];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!scrollView.isDragging && !scrollView.isTracking && !scrollView.isDecelerating) {
+        return;
+    }
+    CGFloat ratio = scrollView.contentOffset.x/scrollView.bounds.size.width;
+    NSInteger maxCount = round(scrollView.contentSize.width/scrollView.bounds.size.width);
+    NSInteger leftIndex = floorf(ratio);
+    leftIndex = MAX(0, MIN(maxCount - 1, leftIndex));
+    NSInteger rightIndex = leftIndex + 1;
+    if (ratio < 0 || rightIndex >= maxCount) {
+        [self listDidAppearOrDisappear:scrollView];
+        return;
+    }
+    if (rightIndex == self.currentIndex) {
+        if (self.willAppearIndex == -1) {
+            self.willAppearIndex = leftIndex;
+            [self listWillAppear:self.willAppearIndex];
+        }
+        if (self.willDisappearIndex == -1) {
+            self.willDisappearIndex = rightIndex;
+            [self listWillDisappear:self.willDisappearIndex];
+        }
+    }else {
+        if (self.willAppearIndex == -1) {
+            self.willAppearIndex = rightIndex;
+            [self listWillAppear:self.willAppearIndex];
+        }
+        if (self.willDisappearIndex == -1) {
+            self.willDisappearIndex = leftIndex;
+            [self listWillDisappear:self.willDisappearIndex];
+        }
+    }
+    [self listDidAppearOrDisappear:scrollView];
+}
+
+- (void)listDidAppearOrDisappear:(UIScrollView *)scrollView {
+
+    CGFloat currentIndexPercent = scrollView.contentOffset.x/scrollView.bounds.size.width;
+    if (self.willAppearIndex != -1 || self.willDisappearIndex != -1) {
+        NSInteger disappearIndex = self.willDisappearIndex;
+        NSInteger appearIndex = self.willAppearIndex;
+        if (self.willAppearIndex > self.willDisappearIndex) {
+            //将要出现的列表在右边
+            if (currentIndexPercent >= self.willAppearIndex) {
+                self.willDisappearIndex = -1;
+                self.willAppearIndex = -1;
+                [self listDidDisappear:disappearIndex];
+                [self listDidAppear:appearIndex];
+            }
+        }else {
+            //将要出现的列表在左边
+            if (currentIndexPercent <= self.willAppearIndex) {
+                self.willDisappearIndex = -1;
+                self.willAppearIndex = -1;
+                [self listDidDisappear:disappearIndex];
+                [self listDidAppear:appearIndex];
+            }
+        }
+    }
+}
+
+- (BOOL)checkIndexValid:(NSInteger)index {
+    NSUInteger count = [self.delegate numberOfRowsInListContainerView:self];
+    if (count <= 0 || index >= count) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)didClickSelectedItemAtIndex:(NSInteger)index {
+    if (![self checkIndexValid:index]) {
+        return;
+    }
+    self.willAppearIndex = -1;
+    self.willDisappearIndex = -1;
+    if (self.currentIndex != index) {
+        [self listWillDisappear:self.currentIndex];
+        [self listDidDisappear:self.currentIndex];
+        [self listWillAppear:index];
+        [self listDidAppear:index];
+    }
+}
 
 @end
 

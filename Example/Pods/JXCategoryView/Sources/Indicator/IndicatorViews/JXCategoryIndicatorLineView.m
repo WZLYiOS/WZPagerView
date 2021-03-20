@@ -101,7 +101,7 @@
     targetIndicatorFrame.origin.x = model.selectedCellFrame.origin.x + (model.selectedCellFrame.size.width - targetIndicatorWidth)/2.0;
     targetIndicatorFrame.size.width = targetIndicatorWidth;
     if (self.isScrollEnabled) {
-        if (self.scrollStyle == JXCategoryIndicatorScrollStyleSameAsUserScroll) {
+        if (self.scrollStyle == JXCategoryIndicatorScrollStyleSameAsUserScroll && (model.selectedType == JXCategoryCellSelectedTypeClick | model.selectedType == JXCategoryCellSelectedTypeCode)) {
             if (self.animator.isExecuting) {
                 [self.animator invalid];
                 self.animator = nil;
@@ -184,47 +184,6 @@
     }else {
         self.frame = targetIndicatorFrame;
     }
-}
-
-@end
-
-@implementation JXCategoryIndicatorLineView (JXDeprecated)
-
-@dynamic indicatorLineWidth;
-@dynamic indicatorLineViewHeight;
-@dynamic indicatorLineViewCornerRadius;
-@dynamic indicatorLineViewColor;
-
-- (void)setIndicatorLineWidth:(CGFloat)indicatorLineWidth {
-    self.indicatorWidth = indicatorLineWidth;
-}
-
-- (CGFloat)indicatorLineWidth {
-    return self.indicatorWidth;
-}
-
-- (void)setIndicatorLineViewHeight:(CGFloat)indicatorLineViewHeight {
-    self.indicatorHeight = indicatorLineViewHeight;
-}
-
-- (CGFloat)indicatorLineViewHeight {
-    return self.indicatorHeight;
-}
-
-- (void)setIndicatorLineViewCornerRadius:(CGFloat)indicatorLineViewCornerRadius {
-    self.indicatorCornerRadius = indicatorLineViewCornerRadius;
-}
-
-- (CGFloat)indicatorLineViewCornerRadius {
-    return self.indicatorCornerRadius;
-}
-
-- (void)setIndicatorLineViewColor:(UIColor *)indicatorLineViewColor {
-    self.indicatorColor = indicatorLineViewColor;
-}
-
-- (UIColor *)indicatorLineViewColor {
-    return self.indicatorColor;
 }
 
 @end

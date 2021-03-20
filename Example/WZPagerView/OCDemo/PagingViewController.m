@@ -8,6 +8,7 @@
 
 #import "PagingViewController.h"
 #import "TestListBaseView.h"
+#import "WZPagerView+WZPagerView_JX.h"
 
 @interface PagingViewController ()<JXCategoryViewDelegate>
 
@@ -99,9 +100,10 @@
     self.navigationController.interactivePopGestureRecognizer.enabled = (index == 0);
 }
 
-- (void)categoryView:(JXCategoryBaseView *)categoryView didClickedItemContentScrollViewTransitionToIndex:(NSInteger)index {
+- (void)categoryView:(JXCategoryBaseView *)categoryView didClickSelectedItemAtIndex:(NSInteger)index {
     
-    [self.pagerView.listContainerView.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+//    [self.pagerView.listContainerView.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.pagerView.listContainerView didClickSelectedItemAtIndex:index];
 }
 
 
@@ -122,8 +124,7 @@
         
         _pagerView = [self preferredPagingView];
         _pagerView.mainTableView.gestureDelegate = self;
-        
-        
+        _pagerView.defaultSelectedIndex = self.categoryView.defaultSelectedIndex;
         //导航栏隐藏的情况，处理扣边返回，下面的代码要加上
         [_pagerView.listContainerView.collectionView.panGestureRecognizer requireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];
         [_pagerView.mainTableView.panGestureRecognizer requireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];
@@ -162,16 +163,17 @@
         _categoryView.titleLabelZoomEnabled = YES;
         _categoryView.averageCellSpacingEnabled = false;
         
+        
         ///要下划线就加这个
         JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
         lineView.lineStyle = JXCategoryIndicatorLineStyle_Lengthen;
-        lineView.indicatorLineViewColor = [UIColor colorWithRed:105/255.0 green:144/255.0 blue:239/255.0 alpha:1];
-        lineView.indicatorCornerRadius = 2;
+//        lineView.indicatorLineViewColor = [UIColor colorWithRed:105/255.0 green:144/255.0 blue:239/255.0 alpha:1];
+        lineView.indicatorCornerRadius = 1;
         lineView.indicatorWidth = 10;
         lineView.indicatorHeight = 4;
         _categoryView.indicators = @[lineView];
-        
-        _categoryView.contentScrollView = self.pagerView.listContainerView.collectionView;
+        _categoryView.listContainer = self.pagerView;
+        _categoryView.defaultSelectedIndex = 1;
     }
     return _categoryView;
 }

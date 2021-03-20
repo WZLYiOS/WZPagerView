@@ -25,6 +25,11 @@
     NSLog(@"第二个：离开界面");
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"第二个：界面完全出现");
+}
+
 -(void)viewDidLoad {
     [super viewDidLoad];
 //    NSLog(@"第二个");
