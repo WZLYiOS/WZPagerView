@@ -20,12 +20,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"第三个：进入界面");
+    NSLog(@"%@", [NSString stringWithFormat:@"%@：进入界面", self.title]);
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"第三个：离开界面");
+    NSLog(@"%@", [NSString stringWithFormat:@"%@：离开界面", self.title]);
 }
 
 -(void)viewDidLoad {

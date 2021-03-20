@@ -86,18 +86,39 @@
     for (UIView *view in cell.contentView.subviews) {
         [view removeFromSuperview];
     }
-    UIView *listView = [self.delegate listContainerView:self listViewInRow:indexPath.item];
-    listView.frame = cell.bounds;
-    [cell.contentView addSubview:listView];
+    id<WZPagerViewListViewDelegate> listView = [self.delegate listContainerView:self listViewInRow:indexPath.item];
+    if (listView != nil) {
+        [listView listView].frame = cell.bounds;
+        [cell.contentView addSubview:[listView listView]];
+    }
     return cell;
 }
 
+- (NSInteger)currentIndex{
+//    return [NSIndexPath indexPathForItem:self.collectionView.contentOffset.x/self.bounds.size.width inSection:0].item;
+    return [self.delegate currntSelect:self];
+}
+
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.delegate listContainerView:self willDisplayCellAtRow:indexPath.item];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillAppear:)]) {
+        [self.delegate listContainerView: self listWillAppear: indexPath.row];
+    }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listWillDisappear:)] && [self currentIndex] != indexPath.item) {
+        [self.delegate listContainerView: self listWillDisappear: [self currentIndex]];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self.delegate listContainerView:self didEndDisplayingCellAtRow:indexPath.item];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidDisappear:)]) {
+        [self.delegate listContainerView: self listDidDisappear: indexPath.row];
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerView:listDidAppear:)]) {
+        NSInteger row = [NSIndexPath indexPathForItem:self.collectionView.contentOffset.x/self.bounds.size.width inSection:0].item;
+        [self.delegate listContainerView: self listDidAppear: row];
+    }
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -127,6 +148,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return self.bounds.size;
 }
+
 
 @end
 
