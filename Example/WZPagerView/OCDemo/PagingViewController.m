@@ -75,6 +75,10 @@
     return self.categoryView.titles.count;
 }
 
+- (UIViewController *)superViewController:(WZPagerView *)pagerView {
+    return self;
+}
+
 - (id<WZPagerViewListViewDelegate>)pagerView:(WZPagerView *)pagerView initListAtIndex:(NSInteger)index {
     
     TestListBaseView *listView = [[TestListBaseView alloc] init];
@@ -103,7 +107,7 @@
 - (void)categoryView:(JXCategoryBaseView *)categoryView didClickSelectedItemAtIndex:(NSInteger)index {
     
 //    [self.pagerView.listContainerView.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self.pagerView.listContainerView didClickSelectedItemAtIndex:index];
+//    [self.pagerView.listContainerView didClickSelectedItemAtIndex:index];
 }
 
 

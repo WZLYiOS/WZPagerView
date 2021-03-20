@@ -126,6 +126,13 @@
  */
 - (void)mainTableViewDidScroll:(UIScrollView *)scrollView;
 
+/**
+ 获取底部控制器，如果添加的是控制器
+
+ @param pagerView pagerView
+ */
+- (UIViewController *)superViewController:(WZPagerView *)pagerView;
+
 @end
 
 @interface WZPagerView : UIView

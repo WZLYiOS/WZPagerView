@@ -330,18 +330,18 @@
     return [list listView];
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    [super willMoveToSuperview:newSuperview];
-
-    UIResponder *next = newSuperview;
-    while (next != nil) {
-        if ([next isKindOfClass:[UIViewController class]]) {
-            [((UIViewController *)next) addChildViewController:self.containerVC];
-            break;
-        }
-        next = next.nextResponder;
-    }
-}
+//- (void)willMoveToSuperview:(UIView *)newSuperview {
+//    [super willMoveToSuperview:newSuperview];
+//
+//    UIResponder *next = newSuperview;
+//    while (next != nil) {
+//        if ([next isKindOfClass:[UIViewController class]]) {
+//            [((UIViewController *)next) addChildViewController:self.containerVC];
+//            break;
+//        }
+//        next = next.nextResponder;
+//    }
+//}
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView listWillAppear:(NSInteger)row{
     
@@ -416,9 +416,13 @@
 
 - (void)initializeViews {
     
-    _containerVC = [[WZPagerListContainerViewController alloc] init];
+    self.containerVC = [[WZPagerListContainerViewController alloc] init];
     self.containerVC.view.backgroundColor = [UIColor clearColor];
     [self addSubview:self.containerVC.view];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(superViewController:)]) {
+        [[self.delegate superViewController:self] addChildViewController:self.containerVC];
+    }
+    
     __weak typeof(self) weakSelf = self;
     self.containerVC.viewWillAppearBlock = ^{
         [weakSelf.listContainerView listWillAppear:weakSelf.currentIndex];
