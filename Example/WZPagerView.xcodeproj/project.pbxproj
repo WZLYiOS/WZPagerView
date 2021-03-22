@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		28DCDFBA2605DDFC000546BA /* WZPagerView+WZPagerView_JX.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */; };
+		28DCE0D92605F906000546BA /* test2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DCE0D82605F906000546BA /* test2ViewController.m */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -27,6 +28,8 @@
 /* Begin PBXFileReference section */
 		28DCDFB82605DDFC000546BA /* WZPagerView+WZPagerView_JX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WZPagerView+WZPagerView_JX.h"; sourceTree = "<group>"; };
 		28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WZPagerView+WZPagerView_JX.m"; sourceTree = "<group>"; };
+		28DCE0D72605F906000546BA /* test2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test2ViewController.h; sourceTree = "<group>"; };
+		28DCE0D82605F906000546BA /* test2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = test2ViewController.m; sourceTree = "<group>"; };
 		38A044BC4E29E614172D689B /* Pods-WZPagerView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZPagerView_Example.debug.xcconfig"; path = "Target Support Files/Pods-WZPagerView_Example/Pods-WZPagerView_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4682EE05114D0267E51DCA0A /* WZPagerView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WZPagerView.podspec; path = ../WZPagerView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* WZPagerView_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZPagerView_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +177,8 @@
 				8011EFF82320F9B2000BC233 /* VCViewController.m */,
 				28DCDFB82605DDFC000546BA /* WZPagerView+WZPagerView_JX.h */,
 				28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */,
+				28DCE0D72605F906000546BA /* test2ViewController.h */,
+				28DCE0D82605F906000546BA /* test2ViewController.m */,
 			);
 			path = OCDemo;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 				28DCDFBA2605DDFC000546BA /* WZPagerView+WZPagerView_JX.m in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				8011F0002320F9B2000BC233 /* ListRefreshViewController.m in Sources */,
+				28DCE0D92605F906000546BA /* test2ViewController.m in Sources */,
 				8011EFFD2320F9B2000BC233 /* VCListViewController.m in Sources */,
 				8011EFFE2320F9B2000BC233 /* VCThreeViewController.m in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

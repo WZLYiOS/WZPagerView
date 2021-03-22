@@ -7,45 +7,6 @@
 //
 
 #import "WZPagerView.h"
-
-@interface WZPagerListContainerViewController : UIViewController
-@property (copy) void(^viewWillAppearBlock)(void);
-@property (copy) void(^viewDidAppearBlock)(void);
-@property (copy) void(^viewWillDisappearBlock)(void);
-@property (copy) void(^viewDidDisappearBlock)(void);
-
-@end
-
-@implementation WZPagerListContainerViewController
-- (void)dealloc
-{
-    self.viewWillAppearBlock = nil;
-    self.viewDidAppearBlock = nil;
-    self.viewWillDisappearBlock = nil;
-    self.viewDidDisappearBlock = nil;
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.viewWillAppearBlock();
-}
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.viewDidAppearBlock();
-}
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.viewWillDisappearBlock();
-}
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.viewDidDisappearBlock();
-}
-- (BOOL)shouldAutomaticallyForwardAppearanceMethods {
-    return NO;
-}
-@end
-
-
 @interface WZPagerView () <UITableViewDataSource, UITableViewDelegate, WZPagerListContainerViewDelegate>
 @property (nonatomic, weak) id<WZPagerViewDelegate> delegate;
 @property (nonatomic, strong) WZPagerMainTableView *mainTableView;
@@ -58,10 +19,40 @@
 @property (nonatomic, assign) BOOL willRemoveFromWindow;
 @property (nonatomic, assign) BOOL isFirstMoveToWindow;
 @property (nonatomic, strong) WZPagerView *retainedSelf;
-@property (nonatomic, strong) WZPagerListContainerViewController *containerVC;
+@property (nonatomic, strong) WZPagerContainerViewController *containerVC;
 @end
 
 @implementation WZPagerView
+
+- (WZPagerContainerViewController *)containerVC {
+    if (!_containerVC) {
+        _containerVC = [[WZPagerContainerViewController alloc] initWith:self.listContainerView];
+        _containerVC.view.backgroundColor = [UIColor clearColor];
+    }return _containerVC;
+}
+
+- (WZPagerMainTableView *)mainTableView {
+    if (!_mainTableView) {
+        _mainTableView = [[WZPagerMainTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _mainTableView.showsVerticalScrollIndicator = NO;
+        _mainTableView.showsHorizontalScrollIndicator = NO;
+        _mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _mainTableView.scrollsToTop = NO;
+        _mainTableView.dataSource = self;
+        _mainTableView.delegate = self;
+        [_mainTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+        if (@available(iOS 11.0, *)) {
+            _mainTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+    }
+    return _mainTableView;
+}
+
+- (WZPagerListContainerView *)listContainerView{
+    if (!_listContainerView) {
+        _listContainerView = [[WZPagerListContainerView alloc] initWithDelegate:self];
+    }return _listContainerView;
+}
 
 - (void)dealloc
 {
@@ -192,11 +183,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.delegate == nil) {
-        return 0;
-    }
+    
     CGFloat sectionHeight = 0;
-    if ([self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
         sectionHeight = [self.delegate heightForPinSectionHeaderInPagerView:self];
     }
     CGFloat height = self.bounds.size.height - sectionHeight - self.pinSectionHeaderVerticalOffset;
@@ -416,42 +405,14 @@
 
 - (void)initializeViews {
     
-    self.containerVC = [[WZPagerListContainerViewController alloc] init];
-    self.containerVC.view.backgroundColor = [UIColor clearColor];
     [self addSubview:self.containerVC.view];
     if (self.delegate && [self.delegate respondsToSelector:@selector(superViewController:)]) {
         [[self.delegate superViewController:self] addChildViewController:self.containerVC];
     }
     
-    __weak typeof(self) weakSelf = self;
-    self.containerVC.viewWillAppearBlock = ^{
-        [weakSelf.listContainerView listWillAppear:weakSelf.currentIndex];
-    };
-    self.containerVC.viewDidAppearBlock = ^{
-        [weakSelf.listContainerView listDidAppear:weakSelf.currentIndex];
-    };
-    self.containerVC.viewWillDisappearBlock = ^{
-        [weakSelf.listContainerView listWillDisappear:weakSelf.currentIndex];
-    };
-    self.containerVC.viewDidDisappearBlock = ^{
-        [weakSelf.listContainerView listDidDisappear:weakSelf.currentIndex];
-    };
-    
-    _mainTableView = [[WZPagerMainTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.mainTableView.showsVerticalScrollIndicator = NO;
-    self.mainTableView.showsHorizontalScrollIndicator = NO;
-    self.mainTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.mainTableView.scrollsToTop = NO;
-    self.mainTableView.dataSource = self;
-    self.mainTableView.delegate = self;
-    [self refreshTableHeaderView];
-    [self.mainTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    if (@available(iOS 11.0, *)) {
-        self.mainTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    }
     [self.containerVC.view addSubview:self.mainTableView];
+    [self refreshTableHeaderView];
 
-    _listContainerView = [[WZPagerListContainerView alloc] initWithDelegate:self];
     self.listContainerView.mainTableView = self.mainTableView;
 
     self.isListHorizontalScrollEnabled = YES;

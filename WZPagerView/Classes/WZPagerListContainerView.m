@@ -254,6 +254,22 @@
     }
 }
 
+- (void)pagerListContainerViewController:(WZPagerContainerViewController *)controller viewWillAppear:(BOOL)animated{
+    [self listWillAppear:[self currentIndex]];
+}
+
+- (void)pagerListContainerViewController:(WZPagerContainerViewController *)controller viewDidAppear:(BOOL)animated{
+    [self listDidAppear:[self currentIndex]];
+}
+
+- (void)pagerListContainerViewController:(WZPagerContainerViewController *)controller viewWillDisappear:(BOOL)animated{
+    [self listWillDisappear:[self currentIndex]];
+}
+
+- (void)pagerListContainerViewController:(WZPagerContainerViewController *)controller viewDidDisappear:(BOOL)animated{
+    [self listDidDisappear:[self currentIndex]];
+}
+
 @end
 
 

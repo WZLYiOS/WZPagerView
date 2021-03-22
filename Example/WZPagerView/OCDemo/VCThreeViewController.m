@@ -7,7 +7,7 @@
 //
 
 #import "VCThreeViewController.h"
-
+#import "test2ViewController.h"
 @interface VCThreeViewController ()
 
 @end
@@ -47,6 +47,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cccc"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@:%@",self.title,self.dataSource[indexPath.row]];
     return  cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    test2ViewController *vc = [test2ViewController new];
+    vc.title = @"测试";
+    [self.navigationController pushViewController:vc animated:true];
 }
 
 

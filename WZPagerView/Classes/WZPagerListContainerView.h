@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WZPagerContainerViewController.h"
 @class WZPagerMainTableView;
 @class WZPagerListContainerView;
 @class WZPagerListContainerCollectionView;
@@ -42,7 +42,7 @@
 @end
 
 
-@interface WZPagerListContainerView : UIView
+@interface WZPagerListContainerView : UIView<WZPagerContainerViewControllerDelegate>
 
 /**
  需要和self.categoryView.defaultSelectedIndex保持一致
@@ -66,10 +66,6 @@
 
 - (void)didClickSelectedItemAtIndex:(NSInteger)index;
 
-- (void)listWillAppear:(NSInteger)row;
-- (void)listDidAppear:(NSInteger)row;
-- (void)listWillDisappear:(NSInteger)row;
-- (void)listDidDisappear:(NSInteger)row;
 @end
 
 

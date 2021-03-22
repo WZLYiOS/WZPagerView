@@ -11,6 +11,7 @@
 #endif
 
 #import "UIScrollView+Pager.h"
+#import "WZPagerContainerViewController.h"
 #import "WZPagerListContainerView.h"
 #import "WZPagerListRefreshView.h"
 #import "WZPagerMainTableView.h"

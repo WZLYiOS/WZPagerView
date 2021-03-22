@@ -28,6 +28,7 @@
 -(void)configView {
     
     [self.view addSubview:self.pagerView];
+    self.pagerView.frame = self.view.bounds;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -44,7 +45,7 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.pagerView.frame = self.view.bounds;
+    
 }
 
 
@@ -100,15 +101,15 @@
 
 #pragma mark - JXCategoryViewDelegate
 
-- (void)categoryView:(JXCategoryBaseView *)categoryView didSelectedItemAtIndex:(NSInteger)index {
-    self.navigationController.interactivePopGestureRecognizer.enabled = (index == 0);
-}
-
-- (void)categoryView:(JXCategoryBaseView *)categoryView didClickSelectedItemAtIndex:(NSInteger)index {
-    
-//    [self.pagerView.listContainerView.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-//    [self.pagerView.listContainerView didClickSelectedItemAtIndex:index];
-}
+//- (void)categoryView:(JXCategoryBaseView *)categoryView didSelectedItemAtIndex:(NSInteger)index {
+//    self.navigationController.interactivePopGestureRecognizer.enabled = (index == 0);
+//}
+//
+//- (void)categoryView:(JXCategoryBaseView *)categoryView didClickSelectedItemAtIndex:(NSInteger)index {
+//    
+////    [self.pagerView.listContainerView.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+////    [self.pagerView.listContainerView didClickSelectedItemAtIndex:index];
+//}
 
 
 
