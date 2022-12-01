@@ -1,14 +1,14 @@
 Pod::Spec.new do |s|
   s.name             = 'WZPagerView'
-  s.version          = '1.1.0'
+  s.version          = '1.2.0'
   s.summary          = '分页上下左右滚动组件 '
   s.description      = <<-DESC
 分页上下左右滚动组件.
                        DESC
-  s.homepage         = 'https://github.com/WZLYiOS/WZPagerView'
+  s.homepage         = 'https://code.aliyun.com/wzlyios/WZPagerView'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'LiuSky' => '327847390@qq.com' }
-  s.source           = { :git => 'https://github.com/WZLYiOS/WZPagerView.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://code.aliyun.com/wzlyios/WZPagerView.git', :tag => s.version.to_s }
 
   
   s.requires_arc = true
