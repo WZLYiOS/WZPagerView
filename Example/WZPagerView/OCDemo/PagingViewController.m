@@ -129,6 +129,7 @@
         
         _pagerView = [self preferredPagingView];
         _pagerView.mainTableView.gestureDelegate = self;
+        _pagerView.listContainerView.collectionView.isNestEnabled = true;
         _pagerView.defaultSelectedIndex = self.categoryView.defaultSelectedIndex;
         //导航栏隐藏的情况，处理扣边返回，下面的代码要加上
         [_pagerView.listContainerView.collectionView.panGestureRecognizer requireGestureRecognizerToFail:self.navigationController.interactivePopGestureRecognizer];

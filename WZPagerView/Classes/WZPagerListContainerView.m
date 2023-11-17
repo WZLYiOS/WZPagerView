@@ -90,6 +90,7 @@
     for (UIView *view in cell.contentView.subviews) {
         [view removeFromSuperview];
     }
+    cell.backgroundColor = UIColor.clearColor;
     UIView *listView = [self.delegate listContainerView:self listViewInRow:indexPath.item];
     listView.frame = cell.bounds;
     [cell.contentView addSubview: listView];

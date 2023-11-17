@@ -225,6 +225,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 74MC74A426;
 						LastSwiftMigration = 0900;
 					};
 				};
@@ -458,6 +459,7 @@
 			baseConfigurationReference = 38A044BC4E29E614172D689B /* Pods-WZPagerView_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZPagerView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -474,6 +476,7 @@
 			baseConfigurationReference = F3773500F3D2EDEFC7DB91F8 /* Pods-WZPagerView_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZPagerView/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
