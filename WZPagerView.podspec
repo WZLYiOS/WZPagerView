@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WZPagerView'
-  s.version          = '1.3.1'
+  s.version          = '1.3.2'
   s.summary          = '分页上下左右滚动组件 '
   s.description      = <<-DESC
 分页上下左右滚动组件.
@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.static_framework = true
   s.swift_version         = '5.0'
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '12.0'
   s.default_subspec = 'Source'
   
   s.subspec 'Source' do |ss|
