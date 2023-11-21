@@ -40,6 +40,7 @@
         _mainTableView.scrollsToTop = NO;
         _mainTableView.dataSource = self;
         _mainTableView.delegate = self;
+        _mainTableView.backgroundColor = UIColor.clearColor;
         [_mainTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
         if (@available(iOS 11.0, *)) {
             _mainTableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -205,6 +206,7 @@
     for (UIView *view in cell.contentView.subviews) {
         [view removeFromSuperview];
     }
+    cell.backgroundColor = UIColor.clearColor;
     self.listContainerView.frame = cell.bounds;
     [cell.contentView addSubview:self.listContainerView];
     return cell;
@@ -390,6 +392,37 @@
 - (NSInteger)currntSelect:(WZPagerListContainerView *)listContainerView {
     return self.currentIndex;
 }
+
+- (void)listContainerViewDidScroll:(UIScrollView *)scrollView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidScroll:)]) {
+        [self.delegate listContainerViewDidScroll:scrollView];
+    }
+}
+
+- (void)listContainerViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewWillBeginDragging:)]) {
+        [self.delegate listContainerViewWillBeginDragging:scrollView];
+    }
+}
+
+- (void)listContainerViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidEndDragging:willDecelerate:)]) {
+        [self.delegate listContainerViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
+}
+
+- (void)listContainerViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewWillBeginDecelerating:)]) {
+        [self.delegate listContainerViewWillBeginDecelerating:scrollView];
+    }
+}
+
+- (void)listContainerViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidEndDecelerating:)]) {
+        [self.delegate listContainerViewDidEndDecelerating:scrollView];
+    }
+}
+
 
 @end
 

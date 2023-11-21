@@ -28,6 +28,7 @@
         _willAppearIndex = -1;
         _willDisappearIndex = -1;
         [self initializeViews];
+        self.backgroundColor = UIColor.clearColor;
     }
     return self;
 }
@@ -46,6 +47,7 @@
     self.collectionView.bounces = NO;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    self.collectionView.backgroundColor = UIColor.clearColor;
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     if (@available(iOS 10.0, *)) {
         self.collectionView.prefetchingEnabled = NO;
@@ -114,6 +116,9 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.mainTableView.scrollEnabled = NO;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewWillBeginDragging:)]) {
+        [self.delegate listContainerViewWillBeginDragging:scrollView];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -127,16 +132,29 @@
         self.willDisappearIndex = -1;
         self.willAppearIndex = -1;
     }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidEndDecelerating:)]) {
+        [self.delegate listContainerViewDidEndDecelerating:scrollView];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) {
         self.mainTableView.scrollEnabled = YES;
     }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidEndDragging:willDecelerate:)]) {
+        [self.delegate listContainerViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     self.mainTableView.scrollEnabled = YES;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewWillBeginDecelerating:)]) {
+        [self.delegate listContainerViewWillBeginDecelerating:scrollView];
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -173,6 +191,11 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewDidScroll:)]) {
+        [self.delegate listContainerViewDidScroll:scrollView];
+    }
+    
     if (!scrollView.isDragging && !scrollView.isTracking && !scrollView.isDecelerating) {
         return;
     }

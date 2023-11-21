@@ -133,6 +133,13 @@
  */
 - (UIViewController *)superViewController:(WZPagerView *)pagerView;
 
+/// 容器的滚动事件
+- (void)listContainerViewDidScroll:(UIScrollView *)scrollView;
+- (void)listContainerViewWillBeginDragging:(UIScrollView *)scrollView;
+- (void)listContainerViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
+- (void)listContainerViewWillBeginDecelerating:(UIScrollView *)scrollView;
+- (void)listContainerViewDidEndDecelerating:(UIScrollView *)scrollView;
+
 @end
 
 @interface WZPagerView : UIView

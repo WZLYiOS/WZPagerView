@@ -1,9 +1,9 @@
 PODS:
   - JXCategoryView (1.5.8)
   - MJRefresh (3.2.0)
-  - WZPagerView (1.2.0):
-    - WZPagerView/Source (= 1.2.0)
-  - WZPagerView/Source (1.2.0)
+  - WZPagerView (1.3.4):
+    - WZPagerView/Source (= 1.3.4)
+  - WZPagerView/Source (1.3.4)
 
 DEPENDENCIES:
   - JXCategoryView (~> 1.5.8)
@@ -22,8 +22,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   JXCategoryView: 778a620f76070d6598fd8d7239991b8da8326170
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
-  WZPagerView: 6acfc9ca31ed5058ecde4eda084a0dd8d1cdc314
+  WZPagerView: 753aa8e1e78e1896ff1f97921e177841616425df
 
-PODFILE CHECKSUM: 1a1b0b3946d6c7871239eb493ef647c4a5edb46a
+PODFILE CHECKSUM: 038c93fbe37a23a964d2a19e7c9027c2bccc055f
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.1

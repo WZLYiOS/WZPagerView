@@ -39,6 +39,15 @@
 
 - (void)listContainerView:(WZPagerListContainerView *)listContainerView listDidDisappear:(NSInteger)row;
 
+@optional
+
+- (void)listContainerViewDidScroll:(UIScrollView *)scrollView;
+- (void)listContainerViewWillBeginDragging:(UIScrollView *)scrollView;
+- (void)listContainerViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
+- (void)listContainerViewWillBeginDecelerating:(UIScrollView *)scrollView;
+- (void)listContainerViewDidEndDecelerating:(UIScrollView *)scrollView;
+
+
 @end
 
 
