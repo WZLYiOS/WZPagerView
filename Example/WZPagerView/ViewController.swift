@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import WZFullscreenPopGesture
 
 /// MARK - Demo
 final class ViewController: UIViewController {
@@ -26,14 +26,14 @@ final class ViewController: UIViewController {
     }()
     
     /// 类型
-    private lazy var titles = ["头部下拉刷新", "内部刷新", "控制器"]
+    private lazy var titles = ["头部下拉刷新", "内部刷新", "控制器", "嵌套", "单个下拉效果"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.view.backgroundColor = UIColor.white
         view.backgroundColor = UIColor.white
-        view.addSubview(tableView)
         
+        view.addSubview(tableView)
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -80,6 +80,12 @@ extension ViewController: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = VCViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = NestViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = SingleListViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break

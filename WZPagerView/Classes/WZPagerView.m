@@ -70,6 +70,7 @@
         _validListDict = [NSMutableDictionary dictionary];
         _automaticallyDisplayListVerticalScrollIndicator = YES;
         _deviceOrientationChangeEnabled = NO;
+        _isHeaderSendSubviewToBack = NO;
         [self initializeViews];
     }
     return self;
@@ -234,6 +235,12 @@
     UIView *footer = [[UIView alloc] initWithFrame:CGRectZero];
     footer.backgroundColor = [UIColor clearColor];
     return footer;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isHeaderSendSubviewToBack && tableView.tableHeaderView != nil) {
+        [tableView sendSubviewToBack: tableView.tableHeaderView];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

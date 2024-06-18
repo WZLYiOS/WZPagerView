@@ -21,14 +21,14 @@
     
     __weak typeof(self)weakSelf = self;
 //    self.pagerView.collectionView.panGestureRecognizer req
-    self.pagerView.mainTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            //self.isHeaderRefreshed = YES;
-            [self.categoryView reloadData];
-            [self.pagerView reloadData];
-            [weakSelf.pagerView.mainTableView.mj_header endRefreshing];
-        });
-    }];
+//    self.pagerView.mainTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            //self.isHeaderRefreshed = YES;
+//            [self.categoryView reloadData];
+//            [self.pagerView reloadData];
+//            [weakSelf.pagerView.mainTableView.mj_header endRefreshing];
+//        });
+//    }];
 }
 
 - (id<WZPagerViewListViewDelegate>)pagerView:(WZPagerView *)pagerView initListAtIndex:(NSInteger)index {

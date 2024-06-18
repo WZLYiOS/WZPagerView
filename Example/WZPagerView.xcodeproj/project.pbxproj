@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		28DCDFBA2605DDFC000546BA /* WZPagerView+WZPagerView_JX.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */; };
 		28DCE0D92605F906000546BA /* test2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DCE0D82605F906000546BA /* test2ViewController.m */; };
+		28E73F662C2023A3008A99C6 /* SingleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28E73F652C2023A3008A99C6 /* SingleListViewController.m */; };
+		28F197DF2B0C6162001E562C /* NestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F197D72B0C6161001E562C /* NestViewController.m */; };
+		28F197E02B0C6162001E562C /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F197D82B0C6161001E562C /* ListViewController.m */; };
+		28F197E12B0C6162001E562C /* ContentBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F197DA2B0C6162001E562C /* ContentBaseViewController.m */; };
+		28F197E22B0C6162001E562C /* NestSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28F197DC2B0C6162001E562C /* NestSubjectViewController.m */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -30,6 +35,16 @@
 		28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "WZPagerView+WZPagerView_JX.m"; sourceTree = "<group>"; };
 		28DCE0D72605F906000546BA /* test2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test2ViewController.h; sourceTree = "<group>"; };
 		28DCE0D82605F906000546BA /* test2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = test2ViewController.m; sourceTree = "<group>"; };
+		28E73F642C2023A3008A99C6 /* SingleListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleListViewController.h; sourceTree = "<group>"; };
+		28E73F652C2023A3008A99C6 /* SingleListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleListViewController.m; sourceTree = "<group>"; };
+		28F197D72B0C6161001E562C /* NestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestViewController.m; sourceTree = "<group>"; };
+		28F197D82B0C6161001E562C /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		28F197D92B0C6161001E562C /* NestSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestSubjectViewController.h; sourceTree = "<group>"; };
+		28F197DA2B0C6162001E562C /* ContentBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentBaseViewController.m; sourceTree = "<group>"; };
+		28F197DB2B0C6162001E562C /* NestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestViewController.h; sourceTree = "<group>"; };
+		28F197DC2B0C6162001E562C /* NestSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestSubjectViewController.m; sourceTree = "<group>"; };
+		28F197DD2B0C6162001E562C /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		28F197DE2B0C6162001E562C /* ContentBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentBaseViewController.h; sourceTree = "<group>"; };
 		38A044BC4E29E614172D689B /* Pods-WZPagerView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZPagerView_Example.debug.xcconfig"; path = "Target Support Files/Pods-WZPagerView_Example/Pods-WZPagerView_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		4682EE05114D0267E51DCA0A /* WZPagerView.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WZPagerView.podspec; path = ../WZPagerView.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* WZPagerView_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZPagerView_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28F197D62B0C6161001E562C /* Nest */ = {
+			isa = PBXGroup;
+			children = (
+				28F197DE2B0C6162001E562C /* ContentBaseViewController.h */,
+				28F197DA2B0C6162001E562C /* ContentBaseViewController.m */,
+				28F197DD2B0C6162001E562C /* ListViewController.h */,
+				28F197D82B0C6161001E562C /* ListViewController.m */,
+				28F197D92B0C6161001E562C /* NestSubjectViewController.h */,
+				28F197DC2B0C6162001E562C /* NestSubjectViewController.m */,
+				28F197DB2B0C6162001E562C /* NestViewController.h */,
+				28F197D72B0C6161001E562C /* NestViewController.m */,
+			);
+			path = Nest;
+			sourceTree = "<group>";
+		};
 		5016A05F33C4A41C6BF2B218 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +138,7 @@
 		607FACD21AFB9204008FA782 /* Example for WZPagerView */ = {
 			isa = PBXGroup;
 			children = (
+				28F197D62B0C6161001E562C /* Nest */,
 				8011EFEB2320F9B2000BC233 /* OCDemo */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
@@ -179,6 +210,8 @@
 				28DCDFB92605DDFC000546BA /* WZPagerView+WZPagerView_JX.m */,
 				28DCE0D72605F906000546BA /* test2ViewController.h */,
 				28DCE0D82605F906000546BA /* test2ViewController.m */,
+				28E73F642C2023A3008A99C6 /* SingleListViewController.h */,
+				28E73F652C2023A3008A99C6 /* SingleListViewController.m */,
 			);
 			path = OCDemo;
 			sourceTree = "<group>";
@@ -272,11 +305,13 @@
 				"${PODS_ROOT}/Target Support Files/Pods-WZPagerView_Example/Pods-WZPagerView_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/JXCategoryView/JXCategoryView.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/WZFullscreenPopGesture/WZFullscreenPopGesture.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JXCategoryView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WZFullscreenPopGesture.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -314,6 +349,7 @@
 			files = (
 				8011EFFF2320F9B2000BC233 /* PagingViewController.m in Sources */,
 				8011F0022320F9B2000BC233 /* VCViewController.m in Sources */,
+				28F197E02B0C6162001E562C /* ListViewController.m in Sources */,
 				28DCDFBA2605DDFC000546BA /* WZPagerView+WZPagerView_JX.m in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				8011F0002320F9B2000BC233 /* ListRefreshViewController.m in Sources */,
@@ -322,8 +358,12 @@
 				8011EFFE2320F9B2000BC233 /* VCThreeViewController.m in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				8011F0032320F9B2000BC233 /* TestListBaseView.m in Sources */,
+				28E73F662C2023A3008A99C6 /* SingleListViewController.m in Sources */,
+				28F197E12B0C6162001E562C /* ContentBaseViewController.m in Sources */,
 				8011EFFC2320F9B2000BC233 /* VCTwoViewController.m in Sources */,
 				8011F0012320F9B2000BC233 /* HeaderRefreshViewController.m in Sources */,
+				28F197DF2B0C6162001E562C /* NestViewController.m in Sources */,
+				28F197E22B0C6162001E562C /* NestSubjectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +501,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZPagerView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -478,6 +519,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 74MC74A426;
 				INFOPLIST_FILE = WZPagerView/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";

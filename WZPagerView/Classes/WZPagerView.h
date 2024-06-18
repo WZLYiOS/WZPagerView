@@ -169,6 +169,10 @@
  是否允许当前列表自动显示或隐藏列表是垂直滚动指示器。YES：悬浮的headerView滚动到顶部开始滚动列表时，就会显示，反之隐藏。NO：内部不会处理列表的垂直滚动指示器。默认为：YES。
  */
 @property (nonatomic, assign) BOOL automaticallyDisplayListVerticalScrollIndicator;
+/**
+ 是否头视图位于cell下面
+ */
+@property (nonatomic, assign) BOOL isHeaderSendSubviewToBack;
 
 - (instancetype)initWithDelegate:(id<WZPagerViewDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

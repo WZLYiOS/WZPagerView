@@ -42,11 +42,11 @@
     
     __weak typeof(self)weakSelf = self;
     if (self.isNeedHeader) {
-        self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [weakSelf.tableView.mj_header endRefreshing];
-            });
-        }];
+//        self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [weakSelf.tableView.mj_header endRefreshing];
+//            });
+//        }];
     }else {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_header removeFromSuperview];
