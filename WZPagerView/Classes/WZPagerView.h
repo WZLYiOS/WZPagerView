@@ -175,9 +175,9 @@
 @property (nonatomic, assign) BOOL isHeaderSendSubviewToBack;
 
 /**
- 是否减去头视图高度
+ 减去高度
  */
-@property (nonatomic, assign) BOOL isReductionHeaderHeight;
+@property (nonatomic, assign) CGFloat reductionHeaderHeight;
 
 - (instancetype)initWithDelegate:(id<WZPagerViewDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;

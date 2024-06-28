@@ -71,7 +71,7 @@
         _automaticallyDisplayListVerticalScrollIndicator = YES;
         _deviceOrientationChangeEnabled = NO;
         _isHeaderSendSubviewToBack = NO;
-        _isReductionHeaderHeight = NO;
+        _isReductionHeaderHeight = 0;
         [self initializeViews];
     }
     return self;
@@ -208,9 +208,7 @@
     CGFloat sectionHeight = [self getSectionHeight];
     
     CGFloat height = self.bounds.size.height - sectionHeight - self.pinSectionHeaderVerticalOffset;
-    if (self.isReductionHeaderHeight) {
-        height -= [self getHeaderHeight];
-    }
+    height -= self.reductionHeaderHeight;
     if (height <= 0) {
         return 0;
     } else {
