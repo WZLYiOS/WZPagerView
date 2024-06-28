@@ -2,9 +2,9 @@ PODS:
   - JXCategoryView (1.5.8)
   - MJRefresh (3.2.0)
   - WZFullscreenPopGesture (6.1.1)
-  - WZPagerView (1.3.6):
-    - WZPagerView/Source (= 1.3.6)
-  - WZPagerView/Source (1.3.6)
+  - WZPagerView (1.3.7):
+    - WZPagerView/Source (= 1.3.7)
+  - WZPagerView/Source (1.3.7)
 
 DEPENDENCIES:
   - JXCategoryView (~> 1.5.8)
@@ -26,8 +26,8 @@ SPEC CHECKSUMS:
   JXCategoryView: 778a620f76070d6598fd8d7239991b8da8326170
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   WZFullscreenPopGesture: 075d21567cac99da643a2d29d11fa616f14505c2
-  WZPagerView: f6917e403a32dec4e3c7ef9bef2afce5bb729b67
+  WZPagerView: 3408657ae9bd2f448d333ae73ba3129739ed7928
 
 PODFILE CHECKSUM: f21dca4094b1d04b725434342ea4eb9599375367
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

@@ -71,6 +71,7 @@
         _automaticallyDisplayListVerticalScrollIndicator = YES;
         _deviceOrientationChangeEnabled = NO;
         _isHeaderSendSubviewToBack = NO;
+        _isReductionHeaderHeight = NO;
         [self initializeViews];
     }
     return self;
@@ -140,10 +141,7 @@
 - (void)refreshTableHeaderView {
     if (self.delegate && [self.delegate respondsToSelector:@selector(tableHeaderViewInPagerView:)]) {
         UIView *tableHeaderView = [self.delegate tableHeaderViewInPagerView:self];
-        CGFloat height = 0;
-        if ([self.delegate respondsToSelector:@selector(tableHeaderViewHeightInPagerView:)]) {
-            height = [self.delegate tableHeaderViewHeightInPagerView:self];
-        }
+        CGFloat height = [self getHeaderHeight];
         UIView *containerView = [[UIView alloc] initWithFrame: CGRectMake(0, 0, CGRectGetWidth(tableHeaderView.bounds), height)];
         [containerView addSubview:tableHeaderView];
         self.mainTableView.tableHeaderView = containerView;
@@ -181,6 +179,24 @@
     self.retainedSelf = nil;
 }
 
+/// 获取section高度
+- (CGFloat) getSectionHeight{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
+        return [self.delegate heightForPinSectionHeaderInPagerView:self];
+    }else{
+        return 0;
+    }
+}
+
+/// 获取头视图高度
+- (CGFloat)getHeaderHeight{
+    if ([self.delegate respondsToSelector:@selector(tableHeaderViewHeightInPagerView:)]) {
+        return [self.delegate tableHeaderViewHeightInPagerView:self];
+    }else{
+        return 0;
+    }
+}
+
 #pragma mark - UITableViewDataSource, UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -189,11 +205,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat sectionHeight = 0;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(heightForPinSectionHeaderInPagerView:)]) {
-        sectionHeight = [self.delegate heightForPinSectionHeaderInPagerView:self];
-    }
+    CGFloat sectionHeight = [self getSectionHeight];
+    
     CGFloat height = self.bounds.size.height - sectionHeight - self.pinSectionHeaderVerticalOffset;
+    if (self.isReductionHeaderHeight) {
+        height -= [self getHeaderHeight];
+    }
     if (height <= 0) {
         return 0;
     } else {
