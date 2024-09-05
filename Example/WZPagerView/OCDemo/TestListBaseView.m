@@ -20,13 +20,13 @@
     if (self) {
         _isHeaderRefreshed = false;
         
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStylePlain];
-        self.tableView.backgroundColor = [UIColor whiteColor];
-        self.tableView.tableFooterView = [UIView new];
-        self.tableView.dataSource = self;
-        self.tableView.delegate = self;
-        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-        [self addSubview:self.tableView];
+//        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height) style:UITableViewStylePlain];
+//        self.tableView.backgroundColor = [UIColor whiteColor];
+//        self.tableView.tableFooterView = [UIView new];
+//        self.tableView.dataSource = self;
+//        self.tableView.delegate = self;
+//        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+//        [self addSubview:self.tableView];
     }
     return self;
 }
@@ -117,9 +117,10 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.scrollPagerHandel) {
-        scrollView.scrollPagerHandel(scrollView);
-    }
+//    if (scrollView.scrollPagerHandel) {
+//        scrollView.scrollPagerHandel(scrollView);
+//    }
+    self.scrollPagerComple(scrollView);
 }
 
 #pragma mark - WZPagingViewListViewDelegate
@@ -128,9 +129,9 @@
     return self;
 }
 
-- (UIScrollView *)listScrollView {
-    return self.tableView;
-}
+//- (UIScrollView *)listScrollView {
+//    return self.tableView;
+//}
 
 - (void)listDidAppear {
     NSLog(@"listDidAppear");

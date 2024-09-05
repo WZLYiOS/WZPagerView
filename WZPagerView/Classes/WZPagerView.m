@@ -71,7 +71,7 @@
         _automaticallyDisplayListVerticalScrollIndicator = YES;
         _deviceOrientationChangeEnabled = NO;
         _isHeaderSendSubviewToBack = NO;
-        _isReductionHeaderHeight = 0;
+        _reductionHeaderHeight = 0;
         [self initializeViews];
     }
     return self;
@@ -280,11 +280,17 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     self.listContainerView.collectionView.scrollEnabled = NO;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mainTableViewWillBeginDragging:)]) {
+        [self.delegate mainTableViewWillBeginDragging:scrollView];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (self.isListHorizontalScrollEnabled && !decelerate) {
         self.listContainerView.collectionView.scrollEnabled = YES;
+    }
+    if (!decelerate && self.delegate && [self.delegate respondsToSelector:@selector(mainTableViewDidEndScrollingAnimation:)]) {
+        [self.delegate mainTableViewDidEndScrollingAnimation:scrollView];
     }
 }
 
@@ -295,11 +301,17 @@
     if (self.mainTableView.contentInset.top != 0 && self.pinSectionHeaderVerticalOffset != 0) {
         [self adjustMainScrollViewToTargetContentInsetIfNeeded:UIEdgeInsetsZero];
     }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mainTableViewDidEndScrollingAnimation:)]) {
+        [self.delegate mainTableViewDidEndScrollingAnimation:scrollView];
+    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     if (self.isListHorizontalScrollEnabled) {
         self.listContainerView.collectionView.scrollEnabled = YES;
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(mainTableViewDidEndScrollingAnimation:)]) {
+        [self.delegate mainTableViewDidEndScrollingAnimation:scrollView];
     }
 }
 
@@ -322,13 +334,19 @@
         __weak typeof(self)weakSelf = self;
         __weak typeof(id<WZPagerViewListViewDelegate>) weakList = list;
         
+        /// 针对scrollView 不会换
         if ([list respondsToSelector:@selector(listScrollView)]) {
             [list listScrollView].scrollPagerHandel = ^(UIScrollView * _Nonnull scrollView) {
                 weakSelf.currentList = weakList;
                 [weakSelf listViewDidScroll:scrollView];
             };
         }
-    
+        
+        /// scrollView 会变的情况
+        [list listView].scrollPagerComple = ^(UIScrollView * _Nonnull scrollView) {
+            weakSelf.currentList = weakList;
+            [weakSelf listViewDidScroll:scrollView];
+        };
         _validListDict[@(row)] = list;
         if ([list isKindOfClass: [UIViewController class]]) {
             [self.containerVC addChildViewController:(UIViewController *)list];

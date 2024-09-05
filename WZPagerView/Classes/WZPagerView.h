@@ -10,6 +10,7 @@
 #import "UIScrollView+Pager.h"
 #import "WZPagerMainTableView.h"
 #import "WZPagerListContainerView.h"
+#import "UIView+Pager.h"
 
 /**
  该协议主要用于mainTableView已经显示了header，listView的contentOffset需要重置时，内部需要访问到外部传入进来的listView内的scrollView
@@ -58,7 +59,6 @@
  可选实现，列表消失的时候调用
  */
 - (void)listDidDisappear;
-
 
 @end
 
@@ -125,6 +125,12 @@
  @param scrollView mainTableView
  */
 - (void)mainTableViewDidScroll:(UIScrollView *)scrollView;
+
+/// 开始滚动
+- (void)mainTableViewWillBeginDragging:(UIScrollView *)scrollView;
+
+/// 结束滚动
+- (void)mainTableViewDidEndScrollingAnimation:(UIScrollView *)scrollView;
 
 /**
  获取底部控制器，如果添加的是控制器

@@ -27,8 +27,10 @@
             filePath = "../WZPagerView/Classes/WZPagerView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549">
+            startingLineNumber = "558"
+            endingLineNumber = "558"
+            landmarkName = "WZPagerView(UISubclassingHooks)"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -41,8 +43,10 @@
             filePath = "../WZPagerView/Classes/WZPagerView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "553"
-            endingLineNumber = "553">
+            startingLineNumber = "557"
+            endingLineNumber = "557"
+            landmarkName = "WZPagerView(UISubclassingHooks)"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -56,7 +60,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "557"
-            endingLineNumber = "557">
+            endingLineNumber = "557"
+            landmarkName = "WZPagerView(UISubclassingHooks)"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -118,6 +124,22 @@
             startingLineNumber = "98"
             endingLineNumber = "98"
             landmarkName = "-initializeViews"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1D0DF294-2B13-4E7E-8E75-6A73AB307F59"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WZPagerView/OCDemo/TestListBaseView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

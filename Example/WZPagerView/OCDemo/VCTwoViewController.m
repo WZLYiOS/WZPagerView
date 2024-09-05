@@ -47,7 +47,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cccc"];
-    cell.textLabel.text = self.dataSource[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %ld", self.dataSource[indexPath.row], (long)indexPath.row];
     return  cell;
 }
 
@@ -74,9 +74,13 @@
 #pragma mark - table
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    if (scrollView.scrollPagerHandel) {
-        scrollView.scrollPagerHandel(scrollView);
-    }
+//    if (scrollView.scrollPagerHandel) {
+//        scrollView.scrollPagerHandel(scrollView);
+//    }
+        if (self.view.scrollPagerComple) {
+            self.view.scrollPagerComple(scrollView);
+        }
+    
 }
 
 #pragma mark - WZPagingViewListViewDelegate
